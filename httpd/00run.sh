@@ -1,5 +1,5 @@
 #!/bin/sh
 
-export PATH=/usr/bin:/usr/sbin:/bin
+export PATH=/usr/local/bin:/usr/bin:/usr/sbin:/bin
 [ -f httpd.pid ] && rm httpd.pid
-httpd -X -d . -f httpd.conf
+httpd -DNO_DETACH -DFOREGROUND -d . -f httpd.conf
