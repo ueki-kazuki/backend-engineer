@@ -4,11 +4,13 @@ use strict;
 use warnings;
 use 5.010;
 use FindBin;
+use Fcntl qw(:flock);
 
 my $filename = $FindBin::Bin . "/../count.txt";
 my $count = 0;
 
 open my $fh,"+<",$filename or die($!);
+flock $fh, LOCK_EX or die "Unable to lock file $!";
 while(<$fh>){ $count = $_; }
 # sleep(10) if $count == 0;
 $count += 1;
