@@ -3,38 +3,19 @@
 use strict;
 use warnings;
 use 5.010;
+use FindBin;
 
-my $filename = "count.txt";
+my $filename = $FindBin::Bin . "/../count.txt";
 my $count = 0;
 
-sub create_file($) {
-    my $file = shift;
-    if (! -f $file) {
-        open my $fh,">", or die($!);
-        print $fh "0";
-        close($fh);
-    }
-}
-
-sub read_count($) {
-    my $file = shift;
-    open my $fh,"<",$file or die($!);
-    while(<$fh>){ $count = $_; }
-    close($fh);
-}
-
-sub write_file($$) {
-    my $file = shift;
-    my $count = shift;
-    open my $fh,">",$file or die($!);
-    print $fh $count;
-    close($fh);
-}
-
-# create_file($filename);
-read_count($filename);
+open my $fh,"+<",$filename or die($!);
+while(<$fh>){ $count = $_; }
+# sleep(10) if $count == 0;
 $count += 1;
-write_file($filename, $count);
+seek $fh, 0, 0;
+truncate $fh, 0;
+print $fh $count;
+close($fh);
 
 say("Content-Type: text/html");
 say("");
