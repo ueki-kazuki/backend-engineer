@@ -19,6 +19,6 @@ truncate $fh, 0;
 print $fh $count;
 close($fh);
 
-say("Content-Type: text/html");
+say("Content-Type: text/html; charset=utf-8");
 say("");
-say($count);
+say("あなたは", $count, "人目のお客様です");
